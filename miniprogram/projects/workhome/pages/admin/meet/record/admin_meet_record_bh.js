@@ -65,9 +65,11 @@ module.exports = Behavior({
 					daysSet: null
 				});
 				await cloudHelper.callCloudSumbit(this.data.oprt + '/meet_day_list', params, opt).then(res => {
+					// let filterDays = timeHelper.filterByDay(res.data,'JOIN_MEET_DAY')
+					let filterDays = res.data
 					this.setData({
 						isLoad: true,
-						daysSet: res.data
+						daysSet: filterDays
 					});
 				});
 			} catch (err) {

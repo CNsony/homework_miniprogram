@@ -312,7 +312,24 @@ function getTimeLeft(datetimeTo, flag = 1) {
 	return [flag * days, flag * hours, flag * minutes, flag * seconds];
 
 }
+/**
+ * 根据给定的时间过滤数据
+ * @param {Array<object>} data 数据源
+ * @param {string} elementName 需要过滤的目标属性
+ * @param {number} compareTime 需要比较的时间，+1明天，-1昨天，0今天
+ * @param {string} compareWay 需要比较的方式,> 大于，>= 大于等于，<小于，<=小于等于，=等于
+ * @returns {Array<object>}
+ */
+function filterByDay(data,elementName,compareTime=0,compareWay='>'){
+	let resData = []
+	let compareTime = new Date(compareTime)
+	data.map((item)=>{
+		if(item[elementName]){
 
+		}
+	})
+	return resData
+}
 
 module.exports = {
 	fmtDateCHN,
