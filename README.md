@@ -25,14 +25,12 @@
 
 ## 作者
 - 如有疑问，欢迎骚扰联系我：开发交流，技术分享，问题答疑，功能建议收集，版本更新通知，安装部署协助，小程序开发定制等。
-- 俺的微信: 
- 
-![image](https://user-images.githubusercontent.com/88791612/219676595-87175879-61da-4b7a-82c5-ead365e5d524.png)
+
 
 
 
 ## 演示 
- ![image](https://user-images.githubusercontent.com/88791612/219676603-06384459-dabe-4d3c-a233-4918df05ab4f.png)
+
 
 
 ## 安装
