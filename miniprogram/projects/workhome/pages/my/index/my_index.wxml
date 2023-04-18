@@ -62,7 +62,12 @@
 	</view>
 
 	<view class="list-menu ">
-	 
+		<view class="item" bindtap="url" data-url="../fav/my_discount">
+			<view class="title">
+				<text class="icon-favor title-ico"></text>
+				<text>我的优惠</text>
+			</view>
+		</view>
 		<view class="item" bindtap="url" data-url="../fav/my_fav">
 			<view class="title">
 				<text class="icon-favor title-ico"></text>

@@ -71,7 +71,6 @@
 		</view>
 	</view>
 
-
 	<cmpt-detail wx:if="{{cur=='mind'}}" doTop="{{true}}" mode="left" topBtnShow="{{topBtnShow}}" topBtnBottom="150" tag="" oid="{{id}}" cate="{{meet.MEET_CATE_NAME}}" title="{{meet.MEET_TITLE}}" cover="{{meet.MEET_OBJ.cover[0]}}" qr="{{meet.MEET_QR}}" desc="查看详情" bg="{{skin.PROJECT_COLOR}}">
 
 	</cmpt-detail>

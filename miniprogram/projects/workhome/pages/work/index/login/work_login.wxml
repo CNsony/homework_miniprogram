@@ -19,7 +19,7 @@
 
 		<button class="btn bg-work margin-bottom margin-top" bindtap="bindLoginTap">点击登录</button>
 		<view class="return text-grey">本系统仅限于家政员登录</view>
-		<view bindtap="url" data-url="../../../my/index/my_index" class="return text-grey"><text class="icon-back"></text>返回用户端</view>
+		<view bindtap="bindBackTap" data-url="../../../my/index/my_index" class="return text-grey"><text class="icon-back"></text>返回用户端</view>
 
 
 	</view>

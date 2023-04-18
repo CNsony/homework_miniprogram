@@ -82,6 +82,7 @@ class BaseProjectService extends BaseService {
 					let cateId = meetArr[j].split('=')[0];
 
 					for (let n = 1; n < 5; n++) {
+						// default init data
 						let data = {};
 						data.MEET_TITLE = '家政员' + n;
 						data.MEET_OBJ = {

@@ -6,7 +6,7 @@ const timeHelper = require('../../../../../../helper/time_helper.js');
 const validate = require('../../../../../../helper/validate.js');
 const AdminMeetBiz = require('../../../../biz/admin_meet_biz.js');
 const projectSetting = require('../../../../public/project_setting.js');
-
+const utils = require('../../../../../../utils/utils')
 Page({
 
 	/**
@@ -55,6 +55,10 @@ Page({
 			return;
 		}
 
+		if(!(meet.MEET_OBJ instanceof Array)){
+			meet.MEET_ARRAY = utils.transObjToArray(meet.MEET_OBJ)
+		}
+
 		this.setData({
 			isLoad: true,
 
@@ -69,9 +73,11 @@ Page({
 
 			formForms: meet.MEET_FORMS,
 
-			formDaysSet: meet.MEET_DAYS_SET,
+			formDaysSet: meet.MEET_DAYS_SET&& meet.MEET_DAYS_SET.length>0?meet.MEET_DAYS_SET:meet.MEET_DAYS,
 
 			formJoinForms: meet.MEET_JOIN_FORMS,
+			//saved data
+			formExistObj:meet.MEET_ARRAY,
 		});
 	},
 

@@ -175,7 +175,6 @@ class MeetController extends BaseProjectController {
 		let rules = {
 			joinId: 'must|id',
 		};
-
 		// 取得数据
 		let input = this.validateData(rules);
 

@@ -128,7 +128,6 @@ Component({
 
 		// 根据mark和type获取上次值或者缓存值或者缺省值
 		_getOneValForm: function (mark, title, type) {
-		 
 			if (type == 'line') return title;
 
 			let ret = null;
@@ -154,6 +153,10 @@ Component({
 				}
 
 				if (type == 'idcard' && forms[k].type == 'idcard') {
+					ret = forms[k].val;
+					break;
+				}
+				if (forms[k].mark == mark) { // 优先匹配mark
 					ret = forms[k].val;
 					break;
 				}

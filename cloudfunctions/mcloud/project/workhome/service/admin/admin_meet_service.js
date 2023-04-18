@@ -21,7 +21,7 @@ const DayModel = require('../../model/day_model.js');
 const TempModel = require('../../model/temp_model.js');
 
 const exportUtil = require('../../../../framework/utils/export_util.js');
-
+ 
 
 // 导出报名数据KEY
 const EXPORT_JOIN_DATA_KEY = 'EXPORT_JOIN_DATA';
@@ -36,14 +36,23 @@ class AdminMeetService extends BaseProjectAdminService {
 
 	/** 预约数据列表 */
 	async getDayList(meetId, start, end) {
+		// 20220413
+		// let where = {
+		// 	DAY_MEET_ID: meetId,
+		// 	day: ['between', start, end]
+		// }
+		// let orderBy = {
+		// 	day: 'asc'
+		// }
+		// return await DayModel.getAllBig(where, 'day,times,dayDesc', orderBy);
 		let where = {
-			DAY_MEET_ID: meetId,
-			day: ['between', start, end]
+			JOIN_MEET_ID: meetId,
+			// JOIN_MEET_TIME_DAY: ['between', start, end]
 		}
 		let orderBy = {
-			day: 'asc'
+			JOIN_MEET_TIME_DAY: 'asc'
 		}
-		return await DayModel.getAllBig(where, 'day,times,dayDesc', orderBy);
+		return await JoinModel.getAll(where);
 	}
 
 	// 按项目统计人数
@@ -112,7 +121,6 @@ class AdminMeetService extends BaseProjectAdminService {
 		id,
 		hasImageForms
 	}) {
-		this.AppError('[家政]该功能暂不开放，如有需要请加作者微信：cclinux0730');
 	}
 
 
@@ -189,8 +197,24 @@ class AdminMeetService extends BaseProjectAdminService {
 		forms,
 		joinForms
 	}) {
-		this.AppError('[家政]该功能暂不开放，如有需要请加作者微信：cclinux0730');
-
+		// 判断是否存在
+		let where = {
+			MEET_PHONE: phone,
+			// MEET_PASSWORD: md5Lib.md5(password),
+			MEET_STATUS: MeetModel.STATUS.COMM,
+			_id:id
+		}
+		let data = {
+			'MEET_TITLE': title,
+			'MEET_CATE_NAME': cateName,
+			'MEET_DAYS': daysSet, //  == days_set
+			'MEET_JOIN_FORMS': joinForms,
+			'MEET_EDIT_TIME': timeUtil.time(),
+			// 'leaveDay': AdminMeetBiz.getLeaveDay(daysSet),
+			"MEET_OBJ":dataUtil.dbForms2Obj(forms)
+		}
+		password?data.MEET_PASSWORD = md5Lib.md5(password):null
+		return await MeetModel.edit(where, data);
 	}
 
 	/**预约名单分页列表 */

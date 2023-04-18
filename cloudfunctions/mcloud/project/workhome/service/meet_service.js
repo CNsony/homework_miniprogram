@@ -45,7 +45,8 @@ class MeetService extends BaseProjectService {
 		let meet = await MeetModel.getOne(where, fields);
 		if (!meet) return meet;
 
-		meet.MEET_DAYS_SET = await this.getDaysSet(meetId, day, day);
+		const MEET_DAYS_SET = await this.getDaysSet(meetId, day, day);
+		meet.MEET_DAYS_SET = MEET_DAYS_SET&&MEET_DAYS_SET.length>0?MEET_DAYS_SET:meet.MEET_DAYS
 		return meet;
 	}
 
@@ -264,7 +265,7 @@ class MeetService extends BaseProjectService {
 		if (!meet) {
 			this.AppError('预约时段选择错误，请重新选择');
 		}
-
+		meet.MEET_DAYS_SET = meet.MEET_DAYS
 		// 预约时段人数和状态控制校验
 		let meetPeopleCnt = formsList ? formsList.length : 1;
 
@@ -351,7 +352,8 @@ class MeetService extends BaseProjectService {
 
 
 		let getDaysSet = [];
-		meet.MEET_DAYS_SET = await this.getDaysSet(meetId, timeUtil.time('Y-M-D')); //今天及以后
+		// meet.MEET_DAYS_SET = await this.getDaysSet(meetId, timeUtil.time('Y-M-D')); //今天及以后，20220413注释，存在days，从days_set获取，导致不匹配，无法获得日期
+		meet.MEET_DAYS_SET = meet.MEET_DAYS
 		let daysSet = meet.MEET_DAYS_SET;
 
 		let now = timeUtil.time('Y-M-D');
@@ -408,7 +410,7 @@ class MeetService extends BaseProjectService {
 	/**  预约前获取关键信息 */
 	async detailForJoin(userId, meetId, timeMark) {
 
-		let fields = 'MEET_DAYS_SET,MEET_JOIN_FORMS, MEET_TITLE';
+		let fields = 'MEET_DAYS_SET,MEET_JOIN_FORMS, MEET_TITLE, MEET_DAYS';
 
 		let where = {
 			_id: meetId,
@@ -481,7 +483,7 @@ class MeetService extends BaseProjectService {
 		let list = await MeetModel.getAll(where, fields, orderBy);
 
 		let retList = [];
-
+		debugger
 		for (let k = 0; k < list.length; k++) {
 			let usefulTimes = await this.getUsefulTimesByDaysSet(list[k]._id, day);
 

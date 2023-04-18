@@ -41,7 +41,7 @@ module.exports = Behavior({
 
 		_init: function (options) {
 			// 附加参数 
-			if (options && options.meetId && options.mark) {
+			if (options && options.meetId) {
 				//设置搜索菜单 
 				this._getSearchMenu();
 
