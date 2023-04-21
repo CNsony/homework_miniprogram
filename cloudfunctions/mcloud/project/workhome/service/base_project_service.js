@@ -6,7 +6,7 @@
 const dbUtil = require('../../../framework/database/db_util.js');
 const util = require('../../../framework/utils/util.js');
 const AdminModel = require('../../../framework/platform/model/admin_model.js');
-const NewsModel = require('../model/news_model.js');
+const SerModel = require('../model/news_model.js');
 const MeetModel = require('../model/meet_model.js');
 const BaseService = require('../../../framework/platform/service/base_service.js');
 
@@ -19,19 +19,16 @@ class BaseProjectService extends BaseService {
 
 		let F = (c) => 'bx_' + c;
 		const INSTALL_CL = 'setup_workhome';
-		const COLLECTIONS = ['setup', 'admin', 'log', 'day', 'fav', 'join', 'meet', 'news', 'temp', 'user'];
+		const COLLECTIONS = ['setup', 'admin', 'log', 'day', 'fav', 'join', 'meet', 'news', 'temp', 'user','service'];
 		const CONST_PIC = '/images/cover.gif';
 
 		const NEWS_CATE = '1=最新动态,2=服务介绍';
 		const MEET_TYPE = '1=家政预约';
-
-
 		if (await dbUtil.isExistCollection(F(INSTALL_CL))) {
 			return;
 		}
 
 		console.log('### initSetup...');
-
 		let arr = COLLECTIONS;
 		for (let k = 0; k < arr.length; k++) {
 			if (!await dbUtil.isExistCollection(F(arr[k]))) {
@@ -53,8 +50,8 @@ class BaseProjectService extends BaseService {
 
 
 		if (await dbUtil.isExistCollection(F('news'))) {
-			let newsCnt = await NewsModel.count({});
-			if (newsCnt == 0) {
+			let newsCnt = await SerModel.count({});
+			if (newsCnt == 0) { // init if empty
 				let newsArr = NEWS_CATE.split(',');
 				for (let j in newsArr) {
 					let title = newsArr[j].split('=')[1];
@@ -68,7 +65,7 @@ class BaseProjectService extends BaseService {
 					data.NEWS_CONTENT = [{ type: 'text', val: title + '内容1' }];
 					data.NEWS_PIC = [CONST_PIC];
 
-					await NewsModel.insert(data);
+					await SerModel.insert(data);
 				}
 			}
 		}

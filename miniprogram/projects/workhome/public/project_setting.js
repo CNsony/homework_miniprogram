@@ -22,6 +22,7 @@ module.exports = { //workhome
 
 	],
 
+	SERVICE_NAME:'服务',
 	MEET_NAME: '家政员',
 	MEET_CATE: [
 		{ id: 1, title: '家政预约', style: 'leftbig1' },

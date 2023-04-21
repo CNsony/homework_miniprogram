@@ -59,6 +59,7 @@ JoinModel.DB_STRUCTURE = {
 	JOIN_EDIT_TIME: 'int|true',
 	JOIN_ADD_IP: 'string|false',
 	JOIN_EDIT_IP: 'string|false',
+	JOIN_SER:'object|true|commnet=预约的服务信息'
 };
 
 // 字段前缀

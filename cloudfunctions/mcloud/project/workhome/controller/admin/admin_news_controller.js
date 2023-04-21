@@ -10,7 +10,7 @@ const AdminNewsService = require('../../service/admin/admin_news_service.js');
 
 const timeUtil = require('../../../../framework/utils/time_util.js');
 const contentCheck = require('../../../../framework/validate/content_check.js');
-const NewsModel = require('../../model/news_model.js');
+const SerModel = require('../../model/news_model.js');
 
 class AdminNewsController extends BaseProjectAdminController {
 
@@ -216,7 +216,7 @@ class AdminNewsController extends BaseProjectAdminController {
 		// 取得数据
 		let input = this.validateData(rules);
 
-		let title = await NewsModel.getOneField(input.id, 'NEWS_TITLE');
+		let title = await SerModel.getOneField(input.id, 'NEWS_TITLE');
 
 		let service = new AdminNewsService();
 		await service.delNews(input.id);

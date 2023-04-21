@@ -322,7 +322,7 @@ function getTimeLeft(datetimeTo, flag = 1) {
  */
 function filterByDay(data,elementName,compareTime=0,compareWay='>'){
 	let resData = []
-	let compareTime = new Date(compareTime)
+	compareTime = new Date(compareTime)
 	data.map((item)=>{
 		if(item[elementName]){
 

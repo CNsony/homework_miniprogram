@@ -68,12 +68,12 @@ module.exports = Behavior({
 			} 
 
 			if (options && options.id) {
-			this.setData({
-					isLoad: true,
-				_params: {
-						cateId: options.id,
-				}
-			});
+				this.setData({
+						isLoad: true,
+					_params: {
+							cateId: options.id,
+					}
+				});
 				BaseBiz.setCateTitle(cateList, cateId);
 			} else {
 				this._getSearchMenu(cateList);
@@ -103,7 +103,7 @@ module.exports = Behavior({
 				sortMenus
 			})
 
-				}
+		}
 
 	}
 })

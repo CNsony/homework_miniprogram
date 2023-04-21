@@ -3,14 +3,15 @@ const pageHelper = require('../../../../../../helper/page_helper.js');
 const cloudHelper = require('../../../../../../helper/cloud_helper.js');
 const validate = require('../../../../../../helper/validate.js');
 const AdminMeetBiz = require('../../../../biz/admin_meet_biz.js');
-
+const utils = require('../../../../../../utils/utils')
 Page({
 
 	/**
 	 * 页面的初始数据
 	 */
 	data: {
-		isLoad: false, 
+		isLoad: false,
+		serviceSelected:1
 	},
 
 	/**
@@ -39,20 +40,27 @@ Page({
 		};
 		let opt = {
 			title: 'bar'
-		};
+		}; 
+		let newsListCate2 = await cloudHelper.callCloudData('news/list', {cateId:'2'});
+		newsListCate2 = newsListCate2 && newsListCate2.list?newsListCate2.list.map((item)=>{
+			return {
+				name:item.title,
+				value:item.id
+			}
+		}):[]
+		debugger
 		let meet = await cloudHelper.callCloudData('work/meet_detail', params, opt);
-
 		if (!meet) {
 			this.setData({
 				isLoad: null
 			})
 			return;
 		}
-
+		if(!(meet.MEET_OBJ instanceof Array)){
+			meet.MEET_ARRAY = utils.transObjToArray(meet.MEET_OBJ)
+		}
 		this.setData({
 			isLoad: true,
-
-
 			// 表单数据   
 			formTitle: meet.MEET_TITLE,
 			formCateId: meet.MEET_CATE_ID,
@@ -66,6 +74,10 @@ Page({
 			formDaysSet: meet.MEET_DAYS_SET,
 
 			formJoinForms: meet.MEET_JOIN_FORMS,
+
+			formExistObj:meet.MEET_ARRAY,
+			newsListCate2,
+			serviceSelectedItems:meet.MEET_SERS
 		});
 	},
 

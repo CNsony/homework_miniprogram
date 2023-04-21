@@ -11,7 +11,7 @@ const util = require('../../../../framework/utils/util.js');
 const timeUtil = require('../../../../framework/utils/time_util.js');
 const cloudUtil = require('../../../../framework/cloud/cloud_util.js');
 
-const NewsModel = require('../../model/news_model.js');
+const SerModel = require('../../model/news_model.js');
 
 class AdminNewsService extends BaseProjectAdminService {
 
@@ -29,9 +29,18 @@ class AdminNewsService extends BaseProjectAdminService {
 		desc = '',
 		forms
 	}) {
-
-
-		this.AppError('[家政]该功能暂不开放，如有需要请加作者微信：cclinux0730');
+		const data = {
+			NEWS_TITLE:title,
+			NEWS_CATE_ID:cateId,
+			NEWS_CATE_NAME:cateName,
+			NEWS_ORDER:order,
+			NEWS_DESC:desc,
+			NEWS_FORMS:forms
+		}
+		data.NEWS_ID = dataUtil.makeID()
+		data.NEWS_ADD_TIME = new Date().getTime()
+		data.NEWS_EDIT_TIME = new Date().getTime()
+		return await SerModel.insert(data);
 	}
 
 	/**删除资讯数据 */
@@ -47,7 +56,7 @@ class AdminNewsService extends BaseProjectAdminService {
 		let where = {
 			_id: id
 		}
-		let news = await NewsModel.getOne(where, fields);
+		let news = await SerModel.getOne(where, fields);
 		if (!news) return null;
 
 		return news;
@@ -159,7 +168,7 @@ class AdminNewsService extends BaseProjectAdminService {
 			}
 		}
 
-		return await NewsModel.getList(where, fields, orderBy, page, size, isTotal, oldTotal);
+		return await SerModel.getList(where, fields, orderBy, page, size, isTotal, oldTotal);
 	}
 
 	/**修改资讯状态 */

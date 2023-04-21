@@ -7,14 +7,14 @@
 
 const BaseProjectModel = require('./base_project_model.js');
 
-class NewsModel extends BaseProjectModel {
+class SerModel extends BaseProjectModel {
 
 }
 
 // 集合名
-NewsModel.CL = BaseProjectModel.C('news');
+SerModel.CL = BaseProjectModel.C('news');
 
-NewsModel.DB_STRUCTURE = {
+SerModel.DB_STRUCTURE = {
 	_pid: 'string|true',
 	NEWS_ID: 'string|true',
 
@@ -37,7 +37,7 @@ NewsModel.DB_STRUCTURE = {
 
 	NEWS_FORMS: 'array|true|default=[]',
 	NEWS_OBJ: 'object|true|default={}',
-
+	NEWS_SER_PRICE:'int|false',
 	NEWS_ADD_TIME: 'int|true',
 	NEWS_EDIT_TIME: 'int|true',
 	NEWS_ADD_IP: 'string|false',
@@ -45,7 +45,7 @@ NewsModel.DB_STRUCTURE = {
 };
 
 // 字段前缀
-NewsModel.FIELD_PREFIX = "NEWS_";
+SerModel.FIELD_PREFIX = "NEWS_";
 
 
-module.exports = NewsModel;
+module.exports = SerModel;

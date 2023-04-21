@@ -483,7 +483,6 @@ class MeetService extends BaseProjectService {
 		let list = await MeetModel.getAll(where, fields, orderBy);
 
 		let retList = [];
-		debugger
 		for (let k = 0; k < list.length; k++) {
 			let usefulTimes = await this.getUsefulTimesByDaysSet(list[k]._id, day);
 

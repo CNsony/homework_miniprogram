@@ -248,6 +248,7 @@ Component({
 			let opt = {};
 			//if (this.data._dataList && this.data._dataList.list && this.data._dataList.list.length > 0)
 			opt.title = 'bar';
+			
 			await cloudHelper.dataList(this, '_dataList', this.data.route, params, opt);
 
 			this.triggerEvent('list', { //TODO 考虑改为双向数据绑定model

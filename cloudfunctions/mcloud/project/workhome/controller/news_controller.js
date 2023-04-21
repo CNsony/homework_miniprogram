@@ -6,6 +6,8 @@
 
 const BaseProjectController = require('./base_project_controller.js');
 const NewsService = require('../service/news_service.js');
+const SerService = require('../service/ser_service.js');
+
 const timeUtil = require('../../../framework/utils/time_util.js');
 
 class NewsController extends BaseProjectController {
@@ -45,9 +47,9 @@ class NewsController extends BaseProjectController {
 		// 取得数据
 		let input = this.validateData(rules);
 
+		let result
 		let service = new NewsService();
-		let result = await service.getNewsList(input);
-
+		result = await service.getNewsList(input);
 		// 数据格式化
 		let list = result.list;
 

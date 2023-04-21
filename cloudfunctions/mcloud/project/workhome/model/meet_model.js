@@ -50,6 +50,7 @@ MeetModel.DB_STRUCTURE = {
 	MEET_EDIT_TIME: 'int|true',
 	MEET_ADD_IP: 'string|false',
 	MEET_EDIT_IP: 'string|false',
+	MEET_SERS:'array|true|comment=家政人员提供的服务'
 };
 
 // 字段前缀

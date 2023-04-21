@@ -32,7 +32,8 @@
 
 		<view class="item" bindtap="url" data-url="../../news/list/admin_news_list"> <text class="icon-formfill text-darkgreen"></text> <text class="text-black">动态&介绍管理</text>
 		</view> 
-		
+		<view class="item" bindtap="url" data-url="../../service/list/admin_service_list"> <text class="icon-formfill text-darkgreen"></text> <text class="text-black">服务管理</text>
+		</view> 
 
 		<view class="item" bindtap="url" data-url="../../meet/list/admin_meet_list"> <text class="icon-timefill text-red"></text> <text class="text-black">家政员&预约管理</text>
 		</view>  

@@ -26,6 +26,16 @@
 	</view>
 	<view wx:if="{{formCancelSetFocus}}" class="hint-desc error">{{formCancelSetFocus}}</view>
 
+	<block>
+		<view class="form-group">
+			<view class="action text-bold text-l"><text class="text-red">*</text>服务种类
+			</view>
+			<view class="action">至少选择{{serviceSelected}}项</view>
+		</view>
+		<view class="form-group align-start" style="flex:1;padding-left:0;padding-right:20rpx;">
+				<cmpt-checkbox show="row" sourceData="{{selectServiceOptions}}" data-idx="{{index}}" bind:select="bindCheckBoxCmpt" style="flex:1" itemMulti="{{serviceSelectedItems}}"/>
+		</view>
+	</block>
 </view>
 
 <view id="formDaysSet" class="form-box shadow" style="background-color: #fef2ce;">

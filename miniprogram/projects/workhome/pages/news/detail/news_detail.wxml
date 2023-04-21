@@ -28,6 +28,8 @@
 		</view>
 
 	</view> 
-
-	<cmpt-detail mode="mode1" topBtnShow="{{topBtnShow}}" oid="{{news._id}}" cate="{{news.NEWS_CATE_NAME}}" title="{{news.NEWS_TITLE}}" cover="{{news.NEWS_PIC[0]}}" qr="{{news.NEWS_QR}}" desc="查看详情"  bg="{{skin.PROJECT_COLOR}}"></cmpt-detail>
+	<view wx:if="{{news.NEWS_CATE_ID=='2'}}" bindtap="url" data-url="../detail/meet_detail?id={{id}}" class="bottom safe-bottom">
+		<view class="inner shadow">马上预约</view>
+	</view> 
+	<cmpt-detail mode="right" topBtnShow="{{topBtnShow}}" oid="{{news._id}}" cate="{{news.NEWS_CATE_NAME}}" title="{{news.NEWS_TITLE}}" cover="{{news.NEWS_PIC[0]}}" qr="{{news.NEWS_QR}}" desc="查看详情"  bg="{{skin.PROJECT_COLOR}}"></cmpt-detail>
 </block>

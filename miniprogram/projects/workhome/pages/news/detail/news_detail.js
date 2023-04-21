@@ -7,7 +7,8 @@ Page({
 	 * 页面的初始数据
 	 */
 	data: {
-		isLoad: false, 
+		isLoad: false,
+		id:null
 	},
 
 	/**
@@ -43,6 +44,7 @@ Page({
 		this.setData({
 			isLoad: true,
 			news,
+			id
 		}); 
 
 	}, 

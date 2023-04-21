@@ -7,7 +7,7 @@
 const BaseProjectAdminService = require('./base_project_admin_service.js');
 const UserModel = require('../../model/user_model.js');
 const MeetModel = require('../../model/meet_model.js');
-const NewsModel = require('../../model/news_model.js');
+const SerModel = require('../../model/news_model.js');
 const constants = require('../../public/constants.js');
 const setupUtil = require('../../../../framework/utils/setup/setup_util.js');
 
@@ -20,7 +20,7 @@ class AdminHomeService extends BaseProjectAdminService {
 		let where = {};
 
 		let userCnt = await UserModel.count(where);
-		let newsCnt = await NewsModel.count(where);
+		let newsCnt = await SerModel.count(where);
 		let meetCnt = await MeetModel.count(where);
 		return [
 			{ title: '用户数', cnt: userCnt },
@@ -40,7 +40,7 @@ class AdminHomeService extends BaseProjectAdminService {
 	async clearVouchData() {
 		await setupUtil.remove(constants.SETUP_HOME_VOUCH_KEY);
 
-		NewsModel.edit({}, { NEWS_VOUCH: 0 });
+		SerModel.edit({}, { NEWS_VOUCH: 0 });
 
 		MeetModel.edit({}, { MEET_VOUCH: 0 });
 

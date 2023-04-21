@@ -1,14 +1,14 @@
-﻿/**
- * Notes: 资讯模块业务逻辑
- * Ver : CCMiniCloud Framework 2.0.1 ALL RIGHTS RESERVED BY cclinux0730 (wechat)
- * Date: 2020-10-29 07:48:00 
+/**
+ * Notes: 服务模块业务逻辑
+ * Ver : CCMiniCloud Framework 2.0.1 ALL RIGHTS RESERVED BY DeepRooter (wechat)
+ * Date: 2023-4-21 07:48:00 
  */
 
 const BaseProjectService = require('./base_project_service.js');
 const util = require('../../../framework/utils/util.js');
-const NewsModel = require('../model/news_model.js');
+const SerModel = require('../model/service_model.js');
 
-class NewsService extends BaseProjectService {
+class SerService extends BaseProjectService {
 
 	/** 浏览资讯信息 */
 	async viewNews(id) {
@@ -19,7 +19,7 @@ class NewsService extends BaseProjectService {
 			_id: id,
 			NEWS_STATUS: 1
 		}
-		let news = await NewsModel.getOne(where, fields);
+		let news = await SerModel.getOne(where, fields);
 		if (!news) return null;
 
 
@@ -29,7 +29,7 @@ class NewsService extends BaseProjectService {
 
 
 	/** 取得分页列表 */
-	async getNewsList({
+	async getSerList({
 		cateId, 
 		search, // 搜索条件
 		sortType, // 搜索菜单
@@ -73,11 +73,9 @@ class NewsService extends BaseProjectService {
 			}
 		}
 
-		return await NewsModel.getList(where, fields, orderBy, page, size, isTotal, oldTotal);
+		return await SerModel.getList(where, fields, orderBy, page, size, isTotal, oldTotal);
 	}  
-	async getNewsListByCate2(){
-		return await this.getNewsList({cateId:'2'})
-	}
+
 }
 
-module.exports = NewsService;
+module.exports = SerService;

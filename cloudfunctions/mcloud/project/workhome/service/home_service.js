@@ -7,7 +7,7 @@
 const BaseProjectService = require('./base_project_service.js');
 const setupUtil = require('../../../framework/utils/setup/setup_util.js');
 const constants = require('../public/constants.js');
-const NewsModel = require('../model/news_model.js');
+const SerModel = require('../model/news_model.js');
 
 class HomeService extends BaseProjectService {
 
@@ -31,7 +31,7 @@ class HomeService extends BaseProjectService {
 			let where = {};
 			where.NEWS_STATUS = 1; // 状态    
 
-			let retList = await NewsModel.getAll(where, fields, orderBy, 10);
+			let retList = await SerModel.getAll(where, fields, orderBy, 10);
 			for (let k = 0; k < retList.length; k++) {
 				list.push({
 					type: 'news',
