@@ -101,6 +101,7 @@ Page({
 		data.forms = forms;
 
 		data.cateName = AdminMeetBiz.getCateName(data.cateId);
+		if (data.serviceSets.length <= 0) return pageHelper.showModal('请至少设置一项「服务种类」');
 
 		try {
 			// 先创建，再上传 
@@ -140,7 +141,11 @@ Page({
 				formPassword: ''
 			});
 		}
+	},
+	bindCheckService: function (e){
+		this.setData({
+			serviceSelectedItems:e.detail
+		})
 	}
-
 
 })

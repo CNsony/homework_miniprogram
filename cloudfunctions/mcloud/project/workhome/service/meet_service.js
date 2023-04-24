@@ -336,11 +336,33 @@ class MeetService extends BaseProjectService {
 		}
 
 	}
+	/**服务预约信息 */
+	async viewServiceMeet({id,renderType}){
+		let fields="*";
+		let where = {
+			MEET_STATUS: ['in', [MeetModel.STATUS.COMM, MeetModel.STATUS.OVER]]
+		}
+		let meets = await MeetModel.getAll(where, fields);
+		if (!meets || meets.length==0) return null;
+		meets = meets.filter((item)=>{
+			return item.MEET_SERS && item.MEET_SERS.includes(id) // this meetid is service id
+		})
 
+		let getAllDaysSet = await this.getAllDaysSetF(meets)
+		// let getAllDaysSet = []
+		
+		// 只返回需要的字段
+		let ret = {};
+		ret.MEET_DAYS_SET = await getAllDaysSet;
+		ret.MEET_QR = meets[0].MEET_QR;
+		ret.MEET_TITLE = meets[0].MEET_TITLE;
+		ret.MEET_CATE_NAME = meets[0].MEET_CATE_NAME;
+		ret.MEET_OBJ = meets[0].MEET_OBJ; // 先默认去第一个
+		return ret;
+	}
 
-	/**  预约详情 */
+	/**  服务人员预约详情 */
 	async viewMeet(meetId) {
-
 		let fields = '*';
 
 		let where = {
@@ -349,7 +371,6 @@ class MeetService extends BaseProjectService {
 		}
 		let meet = await MeetModel.getOne(where, fields);
 		if (!meet) return null;
-
 
 		let getDaysSet = [];
 		// meet.MEET_DAYS_SET = await this.getDaysSet(meetId, timeUtil.time('Y-M-D')); //今天及以后，20220413注释，存在days，从days_set获取，导致不匹配，无法获得日期
@@ -401,8 +422,6 @@ class MeetService extends BaseProjectService {
 		ret.MEET_TITLE = meet.MEET_TITLE;
 		ret.MEET_CATE_NAME = meet.MEET_CATE_NAME;
 		ret.MEET_OBJ = meet.MEET_OBJ;
-
-
 		return ret;
 	}
 
@@ -728,7 +747,55 @@ class MeetService extends BaseProjectService {
 
 		return await JoinModel.getAll(where, fields, orderBy);
 
+	}
+	/**
+	 * aim to add all dayset in meets to one set, and render in customer page for select
+	 * now!!!its only support deal data in one set, need more update for support more than one. the reason is that complexity is so high
+	 * @param {array} meets 
+	 */
 
+	async getAllDaysSetF (meets) {
+		let res = []
+		let now = timeUtil.time('Y-M-D');
+
+		await Promise.all(meets.map(async (item)=>{
+			for (let k = 0; k < item.MEET_DAYS.length; k++) {
+				let dayNode = item.MEET_DAYS[k];
+
+				if (dayNode.day < now) continue; // 排除过期
+
+				let getTimes = [];
+
+				for (let j in dayNode.times) {
+					let timeNode = dayNode.times[j];
+
+					// 排除状态关闭的时段
+					if (timeNode.status != 1) continue;
+
+					// 判断数量是否已满
+					if (timeNode.isLimit && timeNode.stat.succCnt >= timeNode.limit)
+						timeNode.error = '预约已满';
+
+					// 截止规则
+					if (!timeNode.error) {
+						try {
+							item.MEET_DAYS_SET = item.MEET_DAYS
+							await this.checkMeetEndSet(item, timeNode.mark);
+						} catch (ex) {
+							if (ex.name == 'AppError')
+								timeNode.error = '预约结束';
+							else
+								throw ex;
+						}
+					}
+
+					getTimes.push(timeNode);
+				}
+				dayNode.times = getTimes;
+				res.push(dayNode);
+			}
+		}))
+		return await res
 	}
 }
 

@@ -73,11 +73,10 @@ Component({
 			let itemMulti = this.data.itemMulti;
 			for (let k = 0; k < sourceData.length; k++) {
 				for (let j in itemMulti) {
-					if (sourceData[k] == itemMulti[j])
+					if (sourceData[k] == itemMulti[j] || sourceData[k].value==itemMulti[j] )
 						ret.push(itemMulti[j]);
 				}
 			}
-
 			this.triggerEvent('select', ret);
 		}
 	}

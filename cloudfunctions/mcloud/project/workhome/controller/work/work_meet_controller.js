@@ -45,6 +45,8 @@ class WorkMeetController extends BaseProjectWorkController {
 			password: 'string|min:6|max:30|name=登陆密码',
 			forms: 'array|name=表单',
 			joinForms: 'must|array|name=用户资料设置',
+			serviceSets: 'must|array|name=服务种类'
+
 		};
 
 		// 取得数据

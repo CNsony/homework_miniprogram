@@ -118,6 +118,7 @@ AdminMeetBiz.CHECK_FORM = {
 	password: 'formPassword|string|min:6|max:30|name=家政员登陆密码',
 	forms: 'formForms|array',
 	joinForms: 'formJoinForms|must|array|name=用户填写项目',
+	serviceSets: 'serviceSelectedItems|must|array|name=服务种类',
 };
 
 

@@ -79,7 +79,7 @@
 			<view class="action">至少选择{{item.checkBoxLimit}}项</view>
 		</view>
 		<view class="form-group align-start" style="flex:1;padding-left:0;padding-right:20rpx;">
-				<cmpt-checkbox show="{{item.ext.show=='row'?'row':''}}" sourceData="{{item.selectOptions}}" data-idx="{{index}}" bind:select="bindCheckBoxCmpt" itemMulti="{{item.val}}" style="flex:1" />
+			<cmpt-checkbox show="{{item.ext.show=='row'?'row':''}}" sourceData="{{item.selectOptions}}" data-idx="{{index}}" bind:select="bindCheckBoxCmpt" itemMulti="{{item.val}}" style="flex:1" />
 		</view>
 		<view wx:if="{{item.focus}}" class="hint-desc error">{{item.focus}}</view>
 	</block>

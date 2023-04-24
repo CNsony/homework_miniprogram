@@ -195,7 +195,8 @@ class AdminMeetService extends BaseProjectAdminService {
 		phone,
 		password,
 		forms,
-		joinForms
+		joinForms,
+		serviceSets
 	}) {
 		// 判断是否存在
 		let where = {
@@ -211,7 +212,8 @@ class AdminMeetService extends BaseProjectAdminService {
 			'MEET_JOIN_FORMS': joinForms,
 			'MEET_EDIT_TIME': timeUtil.time(),
 			// 'leaveDay': AdminMeetBiz.getLeaveDay(daysSet),
-			"MEET_OBJ":dataUtil.dbForms2Obj(forms)
+			"MEET_OBJ":dataUtil.dbForms2Obj(forms),
+			"MEET_SERS":serviceSets
 		}
 		password?data.MEET_PASSWORD = md5Lib.md5(password):null
 		return await MeetModel.edit(where, data);

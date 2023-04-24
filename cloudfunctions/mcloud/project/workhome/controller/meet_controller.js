@@ -240,13 +240,19 @@ class MeetController extends BaseProjectController {
 		// 数据校验
 		let rules = {
 			id: 'must|id',
+			renderType:'string'
 		};
 
 		// 取得数据
 		let input = this.validateData(rules);
 
 		let service = new MeetService();
-		let meet = await service.viewMeet(input.id);
+		let meet
+		if(input.renderType){
+			meet = await service.viewServiceMeet(input);
+		}else{
+			meet = await service.viewMeet(input.id);
+		}
 
 		if (meet) {
 			// 显示转换  

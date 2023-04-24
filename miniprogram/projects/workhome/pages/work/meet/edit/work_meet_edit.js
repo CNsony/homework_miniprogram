@@ -48,7 +48,6 @@ Page({
 				value:item.id
 			}
 		}):[]
-		debugger
 		let meet = await cloudHelper.callCloudData('work/meet_detail', params, opt);
 		if (!meet) {
 			this.setData({
@@ -71,13 +70,13 @@ Page({
 
 			formForms: meet.MEET_FORMS,
 
-			formDaysSet: meet.MEET_DAYS_SET,
+			formDaysSet: meet.MEET_DAYS_SET&& meet.MEET_DAYS_SET.length>0?meet.MEET_DAYS_SET:meet.MEET_DAYS,
 
 			formJoinForms: meet.MEET_JOIN_FORMS,
 
 			formExistObj:meet.MEET_ARRAY,
 			newsListCate2,
-			serviceSelectedItems:meet.MEET_SERS
+			serviceSelectedItems:meet.MEET_SERS||[]
 		});
 	},
 
@@ -126,12 +125,8 @@ Page({
 
 	bindFormEditSubmit: async function () {
 		pageHelper.formClearFocus(this);
-
 		if (!WorkBiz.isWork(this)) return;
-
 		let data = this.data;
-
-
 		if (data.formDaysSet.length <= 0) {
 			pageHelper.anchor('formDaysSet', this);
 			return pageHelper.formHint(this, 'formDaysSet', '请配置「可预约时段」');
@@ -146,6 +141,8 @@ Page({
 		data.forms = forms;
 
 		data.cateName = AdminMeetBiz.getCateName(data.cateId);
+
+		if (data.serviceSets.length <= 0) return pageHelper.showModal('请至少设置一项「服务种类」');
 
 		try {
 			let meetId = this.data.id;
@@ -174,7 +171,9 @@ Page({
 	url: function (e) {
 		pageHelper.url(e, this);
 	},
-
-
-
+	bindCheckService: function (e){
+		this.setData({
+			serviceSelectedItems:e.detail
+		})
+	}
 })

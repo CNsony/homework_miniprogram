@@ -12,8 +12,6 @@ Page({
 	 */
 	data: {
 		isLoad: false,
-
-
 		tabCur: 0,
 		mainCur: 0,
 		verticalNavTop: 0,
@@ -41,13 +39,15 @@ Page({
 			timeIdx: -1,
 			isLoad: false
 		});
-
 		let id = this.data.id;
 		if (!id) return;
 
 		let params = {
 			id,
 		};
+		if(this.options.renderType){
+			params.renderType = this.options.renderType
+		}
 		let opt = {
 			title: 'bar'
 		};

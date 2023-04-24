@@ -3,7 +3,7 @@
 	<view class="item" wx:for="{{sourceData}}" wx:key="key"> 
 		<block wx:if="{{item.value && item.name}}">
 			<label class="item-label">
-				<checkbox class="item-checkbox" disabled="{{disabled}}" value="{{item.value}}" checked="{{tools.includes(itemMulti,value)}}" />
+				<checkbox class="item-checkbox" disabled="{{disabled}}" value="{{item.value}}" checked="{{tools.includes(itemMulti,item.value)}}" />
 				<text wx:if="{{tools.includes(itemMulti,item.value)}}" style="font-weight:bold">{{item.name}}</text>
 				<text wx:else>{{item.name}}</text>
 			</label>

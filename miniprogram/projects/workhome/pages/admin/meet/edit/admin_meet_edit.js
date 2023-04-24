@@ -15,6 +15,7 @@ Page({
 	data: {
 		isLoad: false,
 		isEdit: true,
+		serviceSelected:1
 
 	},
 
@@ -46,6 +47,13 @@ Page({
 		let opt = {
 			title: 'bar'
 		};
+		let newsListCate2 = await cloudHelper.callCloudData('news/list', {cateId:'2'});
+		newsListCate2 = newsListCate2 && newsListCate2.list?newsListCate2.list.map((item)=>{
+			return {
+				name:item.title,
+				value:item.id
+			}
+		}):[]
 		let meet = await cloudHelper.callCloudData('admin/meet_detail', params, opt);
 
 		if (!meet) {
@@ -78,6 +86,8 @@ Page({
 			formJoinForms: meet.MEET_JOIN_FORMS,
 			//saved data
 			formExistObj:meet.MEET_ARRAY,
+			newsListCate2,
+			serviceSelectedItems:meet.MEET_SERS||[]
 		});
 	},
 
@@ -148,6 +158,7 @@ Page({
 		data.forms = forms;
 
 		data.cateName = AdminMeetBiz.getCateName(data.cateId);
+		if (data.serviceSets.length <= 0) return pageHelper.showModal('请至少设置一项「服务种类」');
 
 		try {
 			let meetId = this.data.id;
@@ -198,6 +209,11 @@ Page({
 			});
 		}
 
+	},
+	bindCheckService: function (e){
+		this.setData({
+			serviceSelectedItems:e.detail
+		})
 	}
 
 })
