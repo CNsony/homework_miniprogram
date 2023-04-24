@@ -2,7 +2,7 @@
 <view wx:if="{{isLoad===false}}" class="margin-top load loading text-l load-project"></view>
 <block wx:if="{{isLoad}}">
 	<view class="main">
-		<view class="meet-title">
+		<view class="meet-title" wx:if="{{cur=='mind'}}">
 			<image mode="aspectFill" class="loading shadow" src="{{meet.MEET_OBJ.cover[0]}}" />
 			<view class="title">{{meet.MEET_TITLE}}</view>
 			<view class="level shadow">{{meet.MEET_OBJ.level}}星</view>
@@ -28,10 +28,8 @@
 				<scroll-view scroll-x class="date" enable-flex="{{true}}">
 					<view bindtap="bindDayTap" data-idx="{{index}}" class="date-inner" wx:for="{{days}}" wx:key="key" wx:for-index="index">
 						<view class="item {{dayIdx==index?'cur':''}}">
-
 							<text wx:if="{{dayIdx==index&&item.status!='今天'}}" class="status cur"><text class="icon-check"></text></text>
 							<text wx:else class="status {{item.status=='今天'?'bg-red':''}}">{{item.status||'可约'}}</text>
-
 							<text class="week">{{item.week}}</text>
 							<text class="day">{{item.date}}</text>
 						</view>

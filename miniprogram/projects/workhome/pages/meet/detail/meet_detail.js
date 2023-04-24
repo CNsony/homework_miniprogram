@@ -190,6 +190,9 @@ Page({
 					meetId,
 					timeMark
 				}
+				if(this.options.renderType){
+					params.renderType = this.options.renderType
+				}
 				await cloudHelper.callCloudSumbit('meet/before_join', params, opts).then(res => {
 					wx.navigateTo({
 						url: `../join/meet_join?id=${meetId}&timeMark=${timeMark}`,

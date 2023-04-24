@@ -262,6 +262,7 @@ class MeetService extends BaseProjectService {
 		};
 		let day = this.getDayByTimeMark(timeMark);
 		let meet = await this.getMeetOneDay(meetId, day, meetWhere);
+		debugger
 		if (!meet) {
 			this.AppError('预约时段选择错误，请重新选择');
 		}
@@ -358,6 +359,7 @@ class MeetService extends BaseProjectService {
 		ret.MEET_TITLE = meets[0].MEET_TITLE;
 		ret.MEET_CATE_NAME = meets[0].MEET_CATE_NAME;
 		ret.MEET_OBJ = meets[0].MEET_OBJ; // 先默认去第一个
+		ret.MEET_ID = meets[0].MEET_ID
 		return ret;
 	}
 
