@@ -1,4 +1,4 @@
-let behavior = require('../../../../../comm/behavior/news_index_bh.js');
+const behavior = require('../../../../../comm/behavior/news_index_bh.js');
 const ProjectBiz = require('../../../biz/project_biz.js');   
 const NewsBiz = require('../../../biz/news_biz.js');
 

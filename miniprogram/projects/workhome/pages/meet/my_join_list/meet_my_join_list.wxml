@@ -20,9 +20,11 @@
 
 				<view bindtap="url" data-url="../my_join_detail/meet_my_join_detail?id={{item._id}}" wx:if="{{!item.isTimeout&&item.JOIN_STATUS==1&&item.JOIN_IS_CHECKIN==0}}" class="qr"><text class="icon-qrcode"></text></view>
 
-				<view class="title">{{item.JOIN_MEET_TITLE}}</view>
+				<view class="title" wx:if="{{item.JOIN_SERVICE_OBJ && item.JOIN_SERVICE_OBJ.NEWS_TITLE}}">{{item.JOIN_SERVICE_OBJ.NEWS_TITLE}}</view>
 
-				<view class="author content-cut-two">姓名：{{item.JOIN_OBJ.name}}</view>
+				<view class="author content-cut-two">服务人员姓名：{{item.JOIN_MEET_TITLE}}</view>
+				<view class="author content-cut-two">客户姓名：{{item.JOIN_OBJ['姓名']}}</view>
+
 				<view class="author">时间：{{item.JOIN_MEET_DAY}} {{item.JOIN_MEET_TIME_START}}～{{item.JOIN_MEET_TIME_END}}
 				</view>
 

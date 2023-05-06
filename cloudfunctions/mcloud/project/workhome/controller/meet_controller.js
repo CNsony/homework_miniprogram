@@ -8,7 +8,7 @@ const BaseProjectController = require('./base_project_controller.js');
 const MeetService = require('../service/meet_service.js');
 const timeUtil = require('../../../framework/utils/time_util.js');
 const JoinModel = require('../model/join_model.js');
-
+const NewsService = require('../service/news_service.js');
 class MeetController extends BaseProjectController {
 
 
@@ -283,13 +283,21 @@ class MeetController extends BaseProjectController {
 			meetId: 'must|id',
 			timeMark: 'must|string',
 			formsList: 'must|array',
+			serviceId: 'string'
 		};
 
 		// 取得数据
 		let input = this.validateData(rules);
 
-		let service = new MeetService();
-		return await service.join(this._userId, input.meetId, input.timeMark, input.formsList);
+		let meetService = new MeetService();
+		let newsService = new NewsService()
+		let newRes = await newsService.viewNews(input.serviceId)
+		let serviceObj = {
+			NEWS_DESC:newRes.NEWS_DESC,
+			NEWS_PIC:newRes.NEWS_PIC,
+			NEWS_TITLE:newRes.NEWS_TITLE
+		}
+		return await meetService.join(this._userId, input.meetId, input.timeMark, input.formsList,serviceObj);
 	}
 
 

@@ -5,13 +5,19 @@
 
 	<view class="article-box">
 		<view class="form-box card-project shadow-project">
+			<view class="form-group" wx:if="{{news}}">
+				<view class="title text-cut">服务类型:{{news.NEWS_TITLE}}</view>
+			</view>
 			<view class="form-group">
-				<view class="title text-cut">{{meet.MEET_TITLE}}</view>
+				<view class="title text-cut">服务人员:{{meet.MEET_TITLE}}</view>
+			</view>
+			<view class="form-group">
+				<view class="title text-cut">取消方式:{{cancelType}}</view>
 			</view>
 			<view class="form-group" bindtap="url" data-type="back">
 				<view class="title text-cut" style="padding-right:0"><text class="icon-calendar margin-right-xxs"></text>{{meet.dayDesc}} <text class="tag mid bg-orange light round margin-right">更改时段</text></view>
 			</view>
-
+			
 		</view>
 
 

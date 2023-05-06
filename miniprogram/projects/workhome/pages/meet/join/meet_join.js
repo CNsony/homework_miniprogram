@@ -12,6 +12,7 @@ Page({
 	data: {
 		isLoad: false,
 		formsList: [],
+		cancelType:''
 	},
 
 	/**
@@ -34,6 +35,16 @@ Page({
 
 		let timeMark = this.data.timeMark;
 		if (!timeMark) return;
+		let news = undefined
+		if(this.options && this.options.serviceId){
+			let params = {
+				id:this.options.serviceId,
+			};
+			let opt = {
+				title: 'bar'
+			};
+			news = await cloudHelper.callCloudData('news/view', params, opt);
+		}
 
 		let params = {
 			meetId: id,
@@ -49,11 +60,30 @@ Page({
 			})
 			return;
 		}
-
+		let cancelType
+		switch(meet.MEET_CANCEL_SET){
+			case 0:
+				cancelType = '不允许取消';
+				break;
+			case 1:
+				cancelType = '可随时取消';
+				break;
+			case 2:
+				cancelType = '仅开始前可取消';
+				break;
+			case 3:
+				cancelType = '仅开始前一天可取消';
+				break;
+			case 4:
+				cancelType = '仅开始前三天可取消';
+				break;
+		}
 
 		this.setData({
 			isLoad: true,
 			meet,
+			news,
+			cancelType
 		});
 
 	},
@@ -132,7 +162,10 @@ Page({
 				let params = {
 					meetId: this.data.id,
 					timeMark: this.data.timeMark,
-					formsList
+					formsList,
+				}
+				if(this.options && this.options.serviceId){
+					params.serviceId = this.options.serviceId
 				}
 				await cloudHelper.callCloudSumbit('meet/join', params, opts).then(res => {
 					let content = '预约成功！'

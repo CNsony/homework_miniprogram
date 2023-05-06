@@ -96,7 +96,7 @@ function dbForms2Obj(forms, excludeContent = false) {
 	let obj = {};
 	for (let k = 0; k < forms.length; k++) {
 		if (excludeContent && forms[k].type == 'content') continue;
-		obj[forms[k].mark] = forms[k].val;
+		obj[forms[k].title] = forms[k].val;
 	}
 	return obj;
 }

@@ -30,7 +30,7 @@ JoinModel.DB_STRUCTURE = {
 	JOIN_CHECKIN_TIME: 'int|true|default=0',
 
 	JOIN_USER_ID: 'string|true|comment=用户ID',
-	JOIN_MEET_ID: 'string|true|comment=预约PK',
+	JOIN_MEET_ID: 'string|true|comment=预约服务人员id',
 	JOIN_MEET_CATE_ID: 'string|true',
 	JOIN_MEET_CATE_NAME: 'string|true',
 	JOIN_MEET_TITLE: 'string|true|comment=项目',
@@ -38,6 +38,7 @@ JoinModel.DB_STRUCTURE = {
 	JOIN_MEET_TIME_START: 'string|true|comment=时段开始',
 	JOIN_MEET_TIME_END: 'string|true|comment=时段结束',
 	JOIN_MEET_TIME_MARK: 'string|true|comment=时段标识',
+	JOIN_SERVICE_OBJ:'object|true|commnet=预约的服务历史信息',
 
 	JOIN_COMPLETE_END_TIME: 'string|false|comment=完整结束时间',
 
@@ -58,8 +59,7 @@ JoinModel.DB_STRUCTURE = {
 	JOIN_ADD_TIME: 'int|true',
 	JOIN_EDIT_TIME: 'int|true',
 	JOIN_ADD_IP: 'string|false',
-	JOIN_EDIT_IP: 'string|false',
-	JOIN_SER:'object|true|commnet=预约的服务信息'
+	JOIN_EDIT_IP: 'string|false'
 };
 
 // 字段前缀

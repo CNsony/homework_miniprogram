@@ -117,7 +117,7 @@ class MeetService extends BaseProjectService {
 	}
 
 	// 用户预约逻辑
-	async join(userId, meetId, timeMark, formsList) {
+	async join(userId, meetId, timeMark, formsList,serviceObj) {
 		// 预约时段是否存在
 		let meetWhere = {
 			_id: meetId
@@ -140,7 +140,6 @@ class MeetService extends BaseProjectService {
 		// 规则校验
 		await this.checkMeetRules(userId, meetId, timeMark, formsList);
 
-
 		let data = {};
 
 		data.JOIN_USER_ID = userId;
@@ -155,7 +154,7 @@ class MeetService extends BaseProjectService {
 		data.JOIN_START_TIME = timeUtil.time2Timestamp(daySet.day + ' ' + timeSet.start + ':00');
 		data.JOIN_STATUS = JoinModel.STATUS.SUCC;
 		data.JOIN_COMPLETE_END_TIME = daySet.day + ' ' + timeSet.end;
-
+		data.JOIN_SERVICE_OBJ = serviceObj
 		// 入库
 		for (let k = 0; k < formsList.length; k++) {
 			let forms = formsList[k];
@@ -165,7 +164,6 @@ class MeetService extends BaseProjectService {
 			await JoinModel.insert(data);
 		}
 
-
 		// 统计
 		this.statJoinCnt(meetId, timeMark);
 
@@ -173,7 +171,6 @@ class MeetService extends BaseProjectService {
 			result: 'ok',
 		}
 	}
-
 
 
 	// 根据日期获取其所在天设置
@@ -262,7 +259,6 @@ class MeetService extends BaseProjectService {
 		};
 		let day = this.getDayByTimeMark(timeMark);
 		let meet = await this.getMeetOneDay(meetId, day, meetWhere);
-		debugger
 		if (!meet) {
 			this.AppError('预约时段选择错误，请重新选择');
 		}
@@ -359,7 +355,7 @@ class MeetService extends BaseProjectService {
 		ret.MEET_TITLE = meets[0].MEET_TITLE;
 		ret.MEET_CATE_NAME = meets[0].MEET_CATE_NAME;
 		ret.MEET_OBJ = meets[0].MEET_OBJ; // 先默认去第一个
-		ret.MEET_ID = meets[0].MEET_ID
+		ret.MEET_ID = meets[0]._id
 		return ret;
 	}
 
@@ -431,7 +427,7 @@ class MeetService extends BaseProjectService {
 	/**  预约前获取关键信息 */
 	async detailForJoin(userId, meetId, timeMark) {
 
-		let fields = 'MEET_DAYS_SET,MEET_JOIN_FORMS, MEET_TITLE, MEET_DAYS';
+		let fields = 'MEET_DAYS_SET,MEET_JOIN_FORMS, MEET_TITLE, MEET_DAYS, MEET_CANCEL_SET';
 
 		let where = {
 			_id: meetId,
@@ -636,9 +632,13 @@ class MeetService extends BaseProjectService {
 		let startT = daySet.day + ' ' + timeSet.start + ':00';
 		let startTime = timeUtil.time2Timestamp(startT);
 		let now = timeUtil.time();
+
 		if (meet.MEET_CANCEL_SET == 2 && now > startTime)
 			this.AppError('该预约时段已经开始，无法取消');
-
+		if (meet.MEET_CANCEL_SET == 3 && now-60*60*24 > startTime)
+			this.AppError('该预约需提前一天取消，无法取消');
+		if (meet.MEET_CANCEL_SET == 4 && now-60*60*24*3 > startTime)
+			this.AppError('该预约需提前三天取消，无法取消');
 		// TODO 已过期不能取消
 
 
@@ -678,7 +678,7 @@ class MeetService extends BaseProjectService {
 			//	'JOIN_MEET_TIME_START': 'desc',
 			'JOIN_ADD_TIME': 'desc'
 		};
-		let fields = 'JOIN_COMPLETE_END_TIME,JOIN_IS_CHECKIN,JOIN_REASON,JOIN_MEET_ID,JOIN_MEET_TITLE,JOIN_MEET_DAY,JOIN_MEET_TIME_START,JOIN_MEET_TIME_END,JOIN_STATUS,JOIN_ADD_TIME,JOIN_OBJ';
+		let fields = 'JOIN_COMPLETE_END_TIME,JOIN_IS_CHECKIN,JOIN_REASON,JOIN_MEET_ID,JOIN_MEET_TITLE,JOIN_MEET_DAY,JOIN_MEET_TIME_START,JOIN_MEET_TIME_END,JOIN_STATUS,JOIN_ADD_TIME,JOIN_OBJ,JOIN_SERVICE_OBJ';
 
 		let where = {
 			JOIN_USER_ID: userId
@@ -770,7 +770,6 @@ class MeetService extends BaseProjectService {
 
 				for (let j in dayNode.times) {
 					let timeNode = dayNode.times[j];
-
 					// 排除状态关闭的时段
 					if (timeNode.status != 1) continue;
 

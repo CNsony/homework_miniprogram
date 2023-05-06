@@ -45,8 +45,8 @@
 						</block>
 
 						<text class="t1">{{index}}{{itm.start}}~{{itm.end}}</text>
-						<!--<text wx:if="{{!itm.error&&itm.isLimit&&itm.limit>1}}" class="t3">剩余:{{itm.limit-itm.stat.succCnt}}</text>
-						<text wx:if="{{!itm.error&&!itm.isLimit}}" class="t3">人数不限</text>-->
+						<!-- <text wx:if="{{!itm.error&&itm.isLimit&&itm.limit>1}}" class="t3">剩余:{{itm.limit-itm.stat.succCnt}}</text> -->
+						<!--<text wx:if="{{!itm.error&&!itm.isLimit}}" class="t3">人数不限</text>-->
 						<text wx:if="{{itm.error}}" class="t3">{{itm.error}}</text>
 					</view>
 				</view>

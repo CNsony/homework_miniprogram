@@ -29,7 +29,7 @@ MeetModel.DB_STRUCTURE = {
 	MEET_FORMS: 'array|true|default=[]',
 	MEET_OBJ: 'object|true|default={}',  
 
-	MEET_CANCEL_SET: 'int|true|default=1|comment=取消设置 0=不允,1=允许,2=仅开始前可取消',
+	MEET_CANCEL_SET: 'int|true|default=1|comment=取消设置 0=不允,1=允许,2=仅开始前可取消,3=仅开始前1天可取消,4=仅开始前3天可取消',
 
 	MEET_STATUS: 'int|true|default=1|comment=状态 0=未启用,1=使用中,9=停止预约,10=已关闭',
 	MEET_ORDER: 'int|true|default=9999',

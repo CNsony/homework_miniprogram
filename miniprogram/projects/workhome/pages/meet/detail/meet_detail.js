@@ -45,7 +45,7 @@ Page({
 		let params = {
 			id,
 		};
-		if(this.options.renderType){
+		if(this.options&&this.options.renderType){
 			params.renderType = this.options.renderType
 		}
 		let opt = {
@@ -80,7 +80,8 @@ Page({
 			isLoad: true,
 			meet,
 			days,
-			canNullTime: projectSetting.MEET_CAN_NULL_TIME
+			canNullTime: projectSetting.MEET_CAN_NULL_TIME,
+			meet_id:meet.MEET_ID
 		});
 
 	},
@@ -178,7 +179,7 @@ Page({
 				return pageHelper.showModal('该时段预约' + time.error + '，换一个时段试试吧！');
 		}
 
-		let meetId = this.data.id;
+		let meetId = this.data.meet_id?this.data.meet_id : this.data.id;
 		let timeMark = time.mark;
 
 		let callback = async () => {
@@ -190,13 +191,21 @@ Page({
 					meetId,
 					timeMark
 				}
-				if(this.options.renderType){
+				if(this.options&&this.options.renderType){
 					params.renderType = this.options.renderType
+
 				}
 				await cloudHelper.callCloudSumbit('meet/before_join', params, opts).then(res => {
-					wx.navigateTo({
-						url: `../join/meet_join?id=${meetId}&timeMark=${timeMark}`,
-					})
+					if(this.options&&this.options.renderType){
+						wx.navigateTo({
+							url: `../join/meet_join?id=${meetId}&timeMark=${timeMark}&serviceId=${this.data.id}`,
+						})
+					}else{
+						wx.navigateTo({
+							url: `../join/meet_join?id=${meetId}&timeMark=${timeMark}`,
+						})
+					}
+					
 				});
 			} catch (ex) {
 				console.log(ex);
