@@ -216,7 +216,16 @@ class AdminMeetService extends BaseProjectAdminService {
 			"MEET_SERS":serviceSets
 		}
 		password?data.MEET_PASSWORD = md5Lib.md5(password):null
-		return await MeetModel.edit(where, data);
+		try {
+			daysSet = daysSet.map((item)=>{
+				item.DAY_MEET_ID = id
+				return item
+			})
+			await DayModel.insertBatch(daysSet)
+			return await MeetModel.edit(where, data);
+		} catch (error) {
+			console.log(error)
+		}
 	}
 
 	/**预约名单分页列表 */

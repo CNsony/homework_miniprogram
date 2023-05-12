@@ -752,7 +752,7 @@ class MeetService extends BaseProjectService {
 	}
 	/**
 	 * aim to add all dayset in meets to one set, and render in customer page for select
-	 * now!!!its only support deal data in one set, need more update for support more than one. the reason is that complexity is so high
+	 * currently!!!its only support deal data in one set, need more update for support more than one. the reason is that complexity is so high
 	 * @param {array} meets 
 	 */
 

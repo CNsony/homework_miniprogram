@@ -96,7 +96,6 @@ class MultiModel extends Model {
 				data[k]._pid = util.getProjectId();
 			}
 		}
-
 		return await super.insertBatch(data, size);
 	}
 

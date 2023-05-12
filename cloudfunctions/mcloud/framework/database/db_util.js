@@ -24,7 +24,6 @@ function getCmd() {
 
 
 async function insertBatch(collectionName, data, size = 1000) {
-
 	let dataArr = dataUtil.spArr(data, size);
 	for (let k = 0; k < dataArr.length; k++) {
 		await db.collection(collectionName).add({
