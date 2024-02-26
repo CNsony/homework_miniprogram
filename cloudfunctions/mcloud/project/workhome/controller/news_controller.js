@@ -6,14 +6,13 @@
 
 const BaseProjectController = require('./base_project_controller.js');
 const NewsService = require('../service/news_service.js');
-const SerService = require('../service/ser_service.js');
-
+const MeetService = require('../service/meet_service.js')
 const timeUtil = require('../../../framework/utils/time_util.js');
 
 class NewsController extends BaseProjectController {
 
 	// 把列表转换为显示模式
-	transNewsList(list) {
+	transNewsList(list,usedNewId) {
 		let ret = [];
 		for (let k = 0; k < list.length; k++) {
 			let node = {};
@@ -23,7 +22,10 @@ class NewsController extends BaseProjectController {
 			node.desc = list[k].NEWS_DESC;
 			node.ext = list[k].NEWS_ADD_TIME;
 			node.pic = list[k].NEWS_PIC[0];
-			ret.push(node);
+			// if have no meetid or have meetid but not match the id
+			if((usedNewId && !usedNewId.includes(list[k]._id)) || !usedNewId){
+				ret.push(node);
+			}
 		}
 		return ret;
 	}
@@ -34,6 +36,7 @@ class NewsController extends BaseProjectController {
 		// 数据校验
 		let rules = {
 			cateId: 'string',
+			meetId: 'id',
 			search: 'string|min:1|max:30|name=搜索条件',
 			sortType: 'string|name=搜索类型',
 			sortVal: 'name=搜索类型值',
@@ -43,7 +46,6 @@ class NewsController extends BaseProjectController {
 			isTotal: 'bool',
 			oldTotal: 'int',
 		};
-
 		// 取得数据
 		let input = this.validateData(rules);
 
@@ -59,10 +61,14 @@ class NewsController extends BaseProjectController {
 			if (list[k].NEWS_OBJ && list[k].NEWS_OBJ.desc)
 				delete list[k].NEWS_OBJ.desc;
 		}
-		result.list = this.transNewsList(list);
+		let newsOtherUsed
+		if(input.meetId){
+			let meetService  = new MeetService()
+			newsOtherUsed = await meetService.getUsedNewsId(input.meetId)
+		}
+		result.list = this.transNewsList(list,newsOtherUsed);
 
 		return result;
-
 	}
 
 

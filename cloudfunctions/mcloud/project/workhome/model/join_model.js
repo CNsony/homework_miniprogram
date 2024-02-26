@@ -52,7 +52,7 @@ JoinModel.DB_STRUCTURE = {
 	*/
 	JOIN_OBJ: 'object|true|default={}',
 
-	JOIN_STATUS: 'int|true|default=1|comment=状态 1=预约成功,10=已取消, 99=系统取消',
+	JOIN_STATUS: 'int|true|default=1|comment=状态 1=预约成功,10=已取消, 99=系统取消, 2 = 已完成',
 
 	JOIN_REASON: 'string|false|comment=审核拒绝或者取消理由',
 
@@ -78,6 +78,7 @@ JoinModel.STATUS_DESC = {
 	SUCC: '预约成功',
 	CANCEL: '已取消',
 	ADMIN_CANCEL: '系统取消',
+	COMPLATE:'已完成'
 };
 
 

@@ -19,13 +19,13 @@
 
 	<view class="mid">
 		<view class="main-menu" style="margin-top:30rpx">  
-			<view class="item" bindtap="url" data-url="../../meet/edit/work_meet_edit?id={{id}}">
+			<!-- <view class="item" bindtap="url" data-url="../../meet/edit/work_meet_edit?id={{id}}">
 				<view class="ico">
 					<view wx:if="{{stat}}" class="status">{{stat.dayCnt}}</view>
 					<text class="icon-calendar"></text>
 				</view>
 				<view class="desc">预约设置与排期</view>
-			</view>
+			</view> -->
 			<view class="item" bindtap="url" data-url="../../meet/record/work_meet_record?meetId={{id}}">
 				<view class="ico"> 
 					<text class="icon-form"></text>

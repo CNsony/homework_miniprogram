@@ -52,7 +52,6 @@ class NewsService extends BaseProjectService {
 			_pid: this.getProjectId() //复杂的查询在此处标注PID
 		};
 		where.NEWS_STATUS = 1; // 状态 
-
 		if (cateId && cateId !== '0') where.and.NEWS_CATE_ID = cateId;
 
 		if (util.isDefined(search) && search) {

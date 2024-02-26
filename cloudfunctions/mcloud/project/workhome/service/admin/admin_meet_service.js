@@ -78,12 +78,23 @@ class AdminMeetService extends BaseProjectAdminService {
 
 	/** 管理员按钮核销 */
 	async checkinJoin(joinId, flag) {
-		this.AppError('[家政]该功能暂不开放，如有需要请加作者微信：cclinux0730');
+		console.log("joinId = ",joinId,'flag = ', flag)
 	}
 
 	/** 管理员扫码核销 */
 	async scanJoin(meetId, code) {
-		this.AppError('[家政]该功能暂不开放，如有需要请加作者微信：cclinux0730');
+		console.log("meetId = ",meetId,'code = ', code)
+		const where = {
+			JOIN_IS_CHECKIN:0,
+			JOIN_CODE:code,
+			JOIN_MEET_ID:meetId
+		}
+		const data = {
+			JOIN_IS_CHECKIN:1,
+			JOIN_CHECKIN_TIME:timeUtil.time(),
+			JOIN_STATUS:2
+		}
+		return await JoinModel.edit(where,data)
 	}
 
 	/**
@@ -217,11 +228,15 @@ class AdminMeetService extends BaseProjectAdminService {
 		}
 		password?data.MEET_PASSWORD = md5Lib.md5(password):null
 		try {
+			// if need to save in daymodel
 			daysSet = daysSet.map((item)=>{
 				item.DAY_MEET_ID = id
 				return item
 			})
-			await DayModel.insertBatch(daysSet)
+			let daysWhere={
+				DAY_MEET_ID:id
+			}
+			await this.updateDaysData(daysWhere,daysSet)
 			return await MeetModel.edit(where, data);
 		} catch (error) {
 			console.log(error)
@@ -424,6 +439,15 @@ class AdminMeetService extends BaseProjectAdminService {
 	}) {
 		this.AppError('[家政]该功能暂不开放，如有需要请加作者微信：cclinux0730');
 
+	}
+	/**
+	 * 
+	 * @param {*} daysSet 
+	 */
+	async updateDaysData(where,daysSet){
+		await DayModel.del(where)
+		await DayModel.insertBatch(daysSet)
+		return
 	}
 
 }

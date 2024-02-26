@@ -80,8 +80,13 @@ class AdminNewsService extends BaseProjectAdminService {
 		content // 富文本数组
 	}) {
 
-		this.AppError('[家政]该功能暂不开放，如有需要请加作者微信：cclinux0730');
-
+		const data = {
+			NEWS_CONTENT:content
+		}
+		const where = {
+			_id:id
+		}
+		return await SerModel.edit(where,data);	
 	}
 
 	/**
@@ -92,9 +97,14 @@ class AdminNewsService extends BaseProjectAdminService {
 		id,
 		imgList // 图片数组
 	}) {
-
-		this.AppError('[家政]该功能暂不开放，如有需要请加作者微信：cclinux0730');
-
+		const data = {
+			NEWS_PIC:imgList
+		}
+		const where = {
+			_id:id
+		}
+		debugger
+		return await SerModel.edit(where,data);	
 	}
 
 
@@ -109,7 +119,19 @@ class AdminNewsService extends BaseProjectAdminService {
 		forms
 	}) {
 
-		this.AppError('[家政]该功能暂不开放，如有需要请加作者微信：cclinux0730');
+		const data = {
+			NEWS_TITLE:title,
+			NEWS_CATE_ID:cateId,
+			NEWS_CATE_NAME:cateName,
+			NEWS_ORDER:order,
+			NEWS_DESC:desc,
+			NEWS_FORMS:forms
+		}
+		data.NEWS_EDIT_TIME = new Date().getTime()
+		const where = {
+			NEWS_ID:id
+		}
+		return await SerModel.edit(where,data);	
 	}
 
 	/**取得资讯分页列表 */

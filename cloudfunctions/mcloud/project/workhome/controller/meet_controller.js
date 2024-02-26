@@ -43,8 +43,6 @@ class MeetController extends BaseProjectController {
 		let service = new MeetService();
 		let list = await service.getMeetListByDay(input.day);
 		return list;
-
-
 	}
 
 	/** 获取从某天开始可预约的日期 */
@@ -180,6 +178,7 @@ class MeetController extends BaseProjectController {
 
 		let service = new MeetService();
 		let join = await service.getMyJoinDetail(this._userId, input.joinId);
+		debugger
 		if (join) {
 
 			let now = timeUtil.time('Y-M-D h:m');

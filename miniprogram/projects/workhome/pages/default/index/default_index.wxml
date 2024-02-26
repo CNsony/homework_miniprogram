@@ -18,18 +18,18 @@
 					<view class="img shadow">
 						<image src="../../../images/menu/kemu.png" />
 					</view>
-					<view class="title">服务介绍</view>
+					<view class="title">服务预约</view>
 				</view>
 			</view>
 
-			<view bindtap="url" data-type="relaunch" data-url="../../meet/index/meet_index" class="item">
+			<!-- <view bindtap="url" data-type="relaunch" data-url="../../meet/index/meet_index" class="item">
 				<view class="item-inner">
 					<view class="img shadow">
 						<image src="../../../images/menu/enroll.png" />
 					</view>
 					<view class="title">家政员预约</view>
 				</view>
-			</view> 
+			</view>  -->
 
 		
 
@@ -44,10 +44,10 @@
 
 		</view>
 
-		<view class="hot-line" data-type="relaunch" bindtap="url" data-url="../../meet/index/meet_index?id=1" >
+		<!-- <view class="hot-line" data-type="relaunch" bindtap="url" data-url="../../meet/index/meet_index?id=1" >
 			<view class="left">家政推荐</view>
 			<view class="right text-project">更多»</view>
-		</view>
+		</view> -->
 
 		<view wx:if="{{!dataList}}" class="margin-top load loading text-l load-project"></view>
 		
@@ -65,7 +65,7 @@
 
 
 		<view class="hot-line">
-			<view class="left">最新动态</view>
+			<view class="left">热门上新</view>
 		</view>
 
 		<!-- List Begin -->

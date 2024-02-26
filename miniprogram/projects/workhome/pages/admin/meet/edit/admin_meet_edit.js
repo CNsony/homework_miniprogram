@@ -47,7 +47,7 @@ Page({
 		let opt = {
 			title: 'bar'
 		};
-		let newsListCate2 = await cloudHelper.callCloudData('news/list', {cateId:'2'});
+		let newsListCate2 = await cloudHelper.callCloudData('news/list', {cateId:'2',meetId:this.data.id});
 		newsListCate2 = newsListCate2 && newsListCate2.list?newsListCate2.list.map((item)=>{
 			return {
 				name:item.title,

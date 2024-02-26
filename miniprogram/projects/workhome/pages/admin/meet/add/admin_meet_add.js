@@ -27,6 +27,7 @@ Page({
 
 		this.setData(await AdminMeetBiz.initFormData()); // 初始化表单数据   
 
+		await this._loadDetail();
 
 	},
 
@@ -146,6 +147,24 @@ Page({
 		this.setData({
 			serviceSelectedItems:e.detail
 		})
-	}
+	},
+	_loadDetail: async function () {
+		
+		let newsListCate2 = await cloudHelper.callCloudData('news/list', {cateId:'2',meetId:this.data.id});
+		if(newsListCate2.list.length==0){
+			return pageHelper.showModal('暂无可绑定的服务种类，请添加后重试。')
+		}
+		newsListCate2 = newsListCate2 && newsListCate2.list?newsListCate2.list.map((item)=>{
+			return {
+				name:item.title,
+				value:item.id
+			}
+		}):[]
+
+		this.setData({
+			isLoad: true,
+			newsListCate2,
+		});
+	},
 
 })

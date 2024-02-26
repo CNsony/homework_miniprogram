@@ -103,7 +103,9 @@ class MeetService extends BaseProjectService {
 				let data = {
 					['times.' + j + '.stat']: stat
 				}
+				// 更新预约成功后的次数，但是目前没存在daymodel中 所以需要从meetmodel中做修改
 				await DayModel.edit(whereDay, data);
+				// await MeetModel.edit(whereDay, data)
 				return;
 			}
 		}
@@ -344,8 +346,8 @@ class MeetService extends BaseProjectService {
 		meets = meets.filter((item)=>{
 			return item.MEET_SERS && item.MEET_SERS.includes(id) // this meetid is service id
 		})
-
-		let getAllDaysSet = await this.getAllDaysSetF(meets)
+		debugger
+		let getAllDaysSet = await this.getAllDaysSetForFirstPerson(meets)
 		// let getAllDaysSet = []
 		
 		// 只返回需要的字段
@@ -371,8 +373,8 @@ class MeetService extends BaseProjectService {
 		if (!meet) return null;
 
 		let getDaysSet = [];
-		// meet.MEET_DAYS_SET = await this.getDaysSet(meetId, timeUtil.time('Y-M-D')); //今天及以后，20220413注释，存在days，从days_set获取，导致不匹配，无法获得日期
-		meet.MEET_DAYS_SET = meet.MEET_DAYS
+		meet.MEET_DAYS_SET = await this.getDaysSet(meetId, timeUtil.time('Y-M-D')); //今天及以后，20220413注释，存在days，从days_set获取，导致不匹配，无法获得日期
+		// meet.MEET_DAYS_SET = meet.MEET_DAYS
 		let daysSet = meet.MEET_DAYS_SET;
 
 		let now = timeUtil.time('Y-M-D');
@@ -461,28 +463,7 @@ class MeetService extends BaseProjectService {
 		return meet;
 	}
 
-	/** 获取某天可用时段 */
-	async getUsefulTimesByDaysSet(meetId, day) {
-		let where = {
-			DAY_MEET_ID: meetId,
-			day
-		}
-		let daysSet = await DayModel.getAll(where, 'day,times');
-		let usefulTimes = [];
-		for (let k = 0; k < daysSet.length; k++) {
-			if (daysSet[k].day != day)
-				continue;
-
-			let times = daysSet[k].times;
-			for (let j in times) {
-				if (times[j].status != 1) continue;
-				usefulTimes.push(times[j]);
-			}
-			break;
-
-		}
-		return usefulTimes;
-	}
+	
 
 	/** 按天获取预约项目 */
 	async getMeetListByDay(day) {
@@ -515,7 +496,28 @@ class MeetService extends BaseProjectService {
 		}
 		return retList;
 	}
+	/** 获取某天可用时段 */
+	async getUsefulTimesByDaysSet(meetId, day) {
+		let where = {
+			DAY_MEET_ID: meetId,
+			day
+		}
+		let daysSet = await DayModel.getAll(where, 'day,times');
+		let usefulTimes = [];
+		for (let k = 0; k < daysSet.length; k++) {
+			if (daysSet[k].day != day)
+				continue;
 
+			let times = daysSet[k].times;
+			for (let j in times) {
+				if (times[j].status != 1) continue;
+				usefulTimes.push(times[j]);
+			}
+			break;
+
+		}
+		return usefulTimes;
+	}
 	/** 获取从某天开始可预约的日期 */
 	async getHasDaysFromDay(day) {
 		let where = {
@@ -657,7 +659,7 @@ class MeetService extends BaseProjectService {
 
 		let where = {
 			_id: joinId,
-			JOIN_USER_ID: userId
+			// JOIN_USER_ID: userId
 		};
 		return await JoinModel.getOne(where, fields);
 	}
@@ -756,11 +758,12 @@ class MeetService extends BaseProjectService {
 	 * @param {array} meets 
 	 */
 
-	async getAllDaysSetF (meets) {
+	async getAllDaysSetForFirstPerson (meets) {
 		let res = []
 		let now = timeUtil.time('Y-M-D');
 
 		await Promise.all(meets.map(async (item)=>{
+			item.MEET_DAYS_SET = await this.getDaysSet(item.meetId, timeUtil.time('Y-M-D')); //今天及以后，20220413注释，存在days，从days_set获取，导致不匹配，无法获得日期
 			for (let k = 0; k < item.MEET_DAYS.length; k++) {
 				let dayNode = item.MEET_DAYS[k];
 
@@ -780,7 +783,7 @@ class MeetService extends BaseProjectService {
 					// 截止规则
 					if (!timeNode.error) {
 						try {
-							item.MEET_DAYS_SET = item.MEET_DAYS
+							// item.MEET_DAYS_SET = item.MEET_DAYS
 							await this.checkMeetEndSet(item, timeNode.mark);
 						} catch (ex) {
 							if (ex.name == 'AppError')
@@ -797,6 +800,32 @@ class MeetService extends BaseProjectService {
 			}
 		}))
 		return await res
+	}
+	/**
+	 * meet will bind one or more news, this method is used to get all used newsid except the param's
+	 * @param {number} meetid 
+	 */
+	async getUsedNewsId(meetid){
+		
+		let where = {
+			MEET_STATUS: MeetModel.STATUS.COMM,
+		};
+
+		let orderBy = {
+			'MEET_ORDER': 'asc',
+			'MEET_ADD_TIME': 'desc'
+		};
+
+		let fields = 'MEET_ID,MEET_SERS';
+
+		let list = await MeetModel.getAll(where, fields, orderBy);
+		let ans = []
+		list.map((item)=>{
+			if(item._id!==meetid){
+				ans = ans.concat(item.MEET_SERS||[])
+			}
+		})
+		return ans
 	}
 }
 

@@ -19,8 +19,6 @@
 			<view class="ex-inner">
 				<text class="icon-edit margin-right-xs"></text>
 				<view bindtap="url" data-url="../edit/my_edit" class="title">修改我的个人资料</view>
-
-
 			</view>
 		</view>
 	</view>
@@ -62,7 +60,7 @@
 	</view>
 
 	<view class="list-menu ">
-		<view class="item" bindtap="url" data-url="../fav/my_discount">
+		<view class="item" bindtap="url" data-url="../fav/my_discount" wx:if="{{false}}">
 			<view class="title">
 				<text class="icon-favor title-ico"></text>
 				<text>我的优惠</text>
